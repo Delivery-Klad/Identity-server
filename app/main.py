@@ -3,6 +3,7 @@ from secrets import token_hex
 
 from fastapi import FastAPI, Request, Response
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi_jwt_auth import AuthJWT
 from fastapi_jwt_auth.exceptions import AuthJWTException
 from pydantic import BaseModel
@@ -16,6 +17,14 @@ settings = get_settings()
 swagger_url = token_hex(randint(10, 15))
 app = FastAPI(title="Streaming server", version="0.1", redoc_url=None, openapi_tags=tags_metadata)
 app.include_router(auth.router)
+
+app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 
 class JWTSettings(BaseModel):
