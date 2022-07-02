@@ -1,12 +1,14 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Request, Cookie, Depends
 from fastapi.responses import JSONResponse
 from fastapi_jwt_auth import AuthJWT
 from sqlalchemy.orm import Session
+from typing import Optional
 
+from app.funcs.utils import get_jwt_sub
 from app.database import crud, schemas
 from app.dependencies import get_db
 
-router = APIRouter(prefix="/auth", tags=["Auth"])
+router = APIRouter(prefix="/auth", tags=["Identity"])
 
 
 @router.get("/", status_code=200)
@@ -20,9 +22,8 @@ async def login(username: str, password: str, authorize: AuthJWT = Depends(), db
     pubkey = "exists"
     if db_data.pubkey is None:
         pubkey = "required"
-    response = JSONResponse({"res": pubkey,
-                             "token": str(authorize.create_refresh_token(db_data.login))},
-                            status_code=200)
+    response = JSONResponse({"res": pubkey}, status_code=200)
+    response.set_cookie("token", str(authorize.create_refresh_token(db_data.login)), secure=True, httponly=True, samesite="None")
     return response
 
 
@@ -34,7 +35,16 @@ async def register(data: schemas.UserData, authorize: AuthJWT = Depends(), db: S
     pubkey = "exists"
     if db_data.pubkey is None:
         pubkey = "required"
-    response = JSONResponse({"res": pubkey,
-                             "token": str(authorize.create_refresh_token(db_data.login))},
-                            status_code=200)
+    response = JSONResponse({"res": pubkey}, status_code=200)
+    response.set_cookie("token", str(authorize.create_refresh_token(db_data.login)), secure=True, httponly=True, samesite="None")
+    return response
+
+
+@router.delete("/", status_code=200)
+async def logout(request: Request, token: Optional[str] = Cookie(None)):
+    data = get_jwt_sub(request, token)
+    if data is None:
+        return JSONResponse(status_code=403)
+    response = JSONResponse(status_code=200)
+    response.delete_cookie("token")
     return response

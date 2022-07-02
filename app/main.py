@@ -15,16 +15,16 @@ from app.dependencies import get_settings
 
 settings = get_settings()
 swagger_url = token_hex(randint(10, 15))
-app = FastAPI(title="Streaming server", version="0.1", redoc_url=None, openapi_tags=tags_metadata)
+app = FastAPI(title="Identity server", version="0.1", redoc_url=None, openapi_tags=tags_metadata)
 app.include_router(auth.router)
 
 app.add_middleware(
-        CORSMiddleware,
-        allow_origins=["*"],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    CORSMiddleware,
+    allow_origins=["http://localhost", "https://identity-serv.herokuapp.com"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 class JWTSettings(BaseModel):

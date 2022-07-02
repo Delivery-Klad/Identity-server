@@ -1,6 +1,6 @@
 tags_metadata = [
     {
-        "name": "Stream"
+        "name": "Identity"
     }
 ]
 """
