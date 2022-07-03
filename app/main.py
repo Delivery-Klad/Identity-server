@@ -20,7 +20,7 @@ app.include_router(auth.router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost", "https://identity-serv.herokuapp.com"],
+    allow_origins=["http://localhost", "https://w3bt.herokuapp.com"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
