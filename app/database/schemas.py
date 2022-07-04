@@ -9,4 +9,5 @@ class UserData(BaseModel):
 
 
 class UpdateUser(BaseModel):
+    token: Optional[str] = None
     pubkey: Optional[str] = None

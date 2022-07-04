@@ -43,19 +43,9 @@ async def register(data: schemas.UserData, authorize: AuthJWT = Depends(), db: S
 
 
 @router.patch("/", status_code=200)
-async def update_pubkey(key: schemas.UpdateUser, request: Request, token: Optional[str] = Cookie(None),
+async def update_pubkey(key: schemas.UpdateUser, request: Request,
                         db: Session = Depends(get_db)):
-    data = get_jwt_sub(request, token)
+    data = get_jwt_sub(request, key.token)
     if data is None:
         return JSONResponse(status_code=403)
     return {"res": crud.update_user(data, key, db)}
-
-
-@router.delete("/", status_code=200)
-async def logout(request: Request, token: Optional[str] = Cookie(None)):
-    data = get_jwt_sub(request, token)
-    if data is None:
-        return JSONResponse(status_code=403)
-    response = JSONResponse(status_code=200)
-    response.delete_cookie("token")
-    return response
