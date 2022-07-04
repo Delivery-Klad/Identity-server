@@ -15,7 +15,6 @@ router = APIRouter(prefix="/auth", tags=["Identity"])
 async def login(username: str, password: str, authorize: AuthJWT = Depends(), db: Session = Depends(get_db)):
     data = schemas.UserData(login=username, password=password)
     db_data = crud.login(data, db)
-    print(db_data)
     if not db_data:
         return JSONResponse(status_code=403, content={"result": "Wrong password"})
     if db_data is None:
@@ -23,8 +22,9 @@ async def login(username: str, password: str, authorize: AuthJWT = Depends(), db
     pubkey = "exists"
     if db_data.pubkey is None:
         pubkey = "required"
-    response = JSONResponse({"res": pubkey}, status_code=200)
-    response.set_cookie("token", str(authorize.create_refresh_token(db_data.login)), secure=True, httponly=True, samesite="None")
+    response = JSONResponse({"res": pubkey,
+                             "token": str(authorize.create_refresh_token(db_data.login))},
+                            status_code=200)
     return response
 
 
