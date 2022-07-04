@@ -15,6 +15,7 @@ router = APIRouter(prefix="/auth", tags=["Identity"])
 async def login(username: str, password: str, authorize: AuthJWT = Depends(), db: Session = Depends(get_db)):
     data = schemas.UserData(login=username, password=password)
     db_data = crud.login(data, db)
+    print(db_data)
     if not db_data:
         return JSONResponse(status_code=403, content={"result": "Wrong password"})
     if db_data is None:
