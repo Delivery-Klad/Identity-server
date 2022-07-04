@@ -6,3 +6,7 @@ class UserData(BaseModel):
     login: str
     password: str
     email: Optional[str] = None
+
+
+class UpdateUser(BaseModel):
+    pubkey: Optional[str] = None
