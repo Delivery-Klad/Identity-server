@@ -36,8 +36,9 @@ async def register(data: schemas.UserData, authorize: AuthJWT = Depends(), db: S
     pubkey = "exists"
     if db_data.pubkey is None:
         pubkey = "required"
-    response = JSONResponse({"res": pubkey}, status_code=200)
-    response.set_cookie("token", str(authorize.create_refresh_token(db_data.login)), secure=True, httponly=True, samesite="None")
+    response = JSONResponse({"res": pubkey,
+                             "token": str(authorize.create_refresh_token(db_data.login))},
+                            status_code=200)
     return response
 
 
