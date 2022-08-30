@@ -8,4 +8,8 @@ services:
       - 8080
     resources:
       cpu: 500m
+<<<<<<< HEAD
       memory: 512Mi
+=======
+      memory: 512Mi
+>>>>>>> 3ffff6e58d9581147f3caf6d93a666b53e7696aa
