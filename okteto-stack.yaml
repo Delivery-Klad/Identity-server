@@ -1,0 +1,11 @@
+services:
+  fastapi:
+    public: true
+    image: deliveryklad/fastapi-crud:latest
+    build: .
+    replicas: 1
+    ports:
+      - 8080
+    resources:
+      cpu: 500m
+      memory: 512Mi
