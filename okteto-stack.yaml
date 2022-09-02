@@ -4,12 +4,11 @@ services:
     image: deliveryklad/fastapi-crud:latest
     build: .
     replicas: 1
+    environment:
+      SECRET: $identity_secret
+      DATABASE_URL: $identity_database
     ports:
       - 8080
     resources:
       cpu: 500m
-<<<<<<< HEAD
       memory: 512Mi
-=======
-      memory: 512Mi
->>>>>>> 3ffff6e58d9581147f3caf6d93a666b53e7696aa
