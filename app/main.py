@@ -9,13 +9,14 @@ from fastapi_jwt_auth.exceptions import AuthJWTException
 from pydantic import BaseModel
 
 from app.tags import tags_metadata
-from app.routers import auth
+from app.routers import auth, service
 from app.database.database import SessionLocal
 from app.dependencies import get_settings
 
 settings = get_settings()
 swagger_url = token_hex(randint(10, 15))
 app = FastAPI(title="Identity server", version="0.1", redoc_url=None, openapi_tags=tags_metadata)
+app.include_router(service.router)
 app.include_router(auth.router)
 
 app.add_middleware(
