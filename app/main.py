@@ -21,7 +21,7 @@ app.include_router(auth.router)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost", "https://w3bt.herokuapp.com"],
+    allow_origins=["http://localhost", "https://chat.c1oud.ru", "https://dev.c1oud.ru"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -32,9 +32,9 @@ def login(user_data: schemas.UserData, db: Session):
             return False
 
 
-def update_user(user: str, data: schemas.UpdateUser, db: Session):
-    db_data = db.query(models.Users).filter(models.Users.login == user).first()
-    if data.pubkey is not None:
-        db_data.pubkey = data.pubkey
+def update_user(user_id: str, pubkey: str, db: Session):
+    db_data = db.query(models.Users).filter(models.Users.id == user_id).first()
+    if pubkey is not None:
+        db_data.pubkey = pubkey
     db.commit()
     return True
