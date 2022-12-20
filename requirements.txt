@@ -3,7 +3,7 @@ aiofiles
 fastapi==0.75.0
 uvicorn==0.14.0
 starlette==0.17.1
-PyJWT==1.7.1
+PyJWT
 fastapi-jwt-auth==0.5.0
 requests
 python-multipart==0.0.5
